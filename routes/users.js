@@ -3,9 +3,7 @@ var router = express.Router()
 const User = require('../models/user')
 
 /* GET users listing. */
-router.get('/', function (req, res, next) {
-
-})
+router.get('/', function(req, res, next) {})
 
 router.post('/', async (req, res) => {
   try {
@@ -23,9 +21,16 @@ router.post('/', async (req, res) => {
 
     await me.save()
 
-    res.send(me)
+    req.login(me, err => {
+      if (err) {
+        return res.status(400).send({ message: err })
+      }
+
+      res.redirect('/')
+    })
   } catch (err) {
-    res.send({ err })
+    console.log(err)
+    res.send(err)
   }
 })
 
