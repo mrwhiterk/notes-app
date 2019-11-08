@@ -25,7 +25,7 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
       trim: true,
-      minlength: 7,
+      // minlength: 7,
       validate(value) {
         if (value.toLowerCase().includes('password')) {
           throw new Error("password cannot include the string 'password'")

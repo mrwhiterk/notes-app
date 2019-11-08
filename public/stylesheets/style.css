@@ -1,6 +1,6 @@
 body {
   /* padding: 50px; */
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font: 14px 'Lucida Grande', Helvetica, Arial, sans-serif;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -9,8 +9,14 @@ body {
 
 main {
   flex-grow: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 a {
-  color: #00B7FF;
+  color: #00b7ff;
+}
+
+#signupForm {
+  margin-top: 10%;
 }
