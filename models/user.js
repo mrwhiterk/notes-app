@@ -7,7 +7,8 @@ const userSchema = new mongoose.Schema(
     username: {
       type: String,
       required: true,
-      trim: true
+      trim: true,
+      unique: true
     },
     email: {
       type: String,
@@ -15,7 +16,7 @@ const userSchema = new mongoose.Schema(
       required: true,
       trim: true,
       lowercase: true,
-      validate(value) {
+      validate (value) {
         if (!validator.isEmail(value)) {
           throw new Error('email is invalid')
         }
@@ -26,7 +27,7 @@ const userSchema = new mongoose.Schema(
       required: true,
       trim: true,
       // minlength: 7,
-      validate(value) {
+      validate (value) {
         if (value.toLowerCase().includes('password')) {
           throw new Error("password cannot include the string 'password'")
         }
@@ -41,14 +42,13 @@ const userSchema = new mongoose.Schema(
   }
 )
 
-userSchema.pre('save', async function(next) {
+userSchema.pre('save', async function (next) {
   const user = this
   if (user.isModified('password')) {
     user.password = await bcrypt.hash(user.password, 8)
   }
   next()
 })
-
 
 userSchema.statics.findByCredentials = async (email, password) => {
   const user = await User.findOne({ email })
@@ -65,7 +65,6 @@ userSchema.statics.findByCredentials = async (email, password) => {
 
   return user
 }
-
 
 const User = mongoose.model('User', userSchema)
 

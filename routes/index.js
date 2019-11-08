@@ -9,8 +9,11 @@ router.get('/', userController.redirectIfNotAuthenticated, (req, res) => {
 })
 
 // signup page
-router.get('/signup', (req, res) => {
+router.get('/signup', userController.redirectIfAuthenticated, (req, res) => {
   res.render('auth/signup')
 })
+
+// logout
+router.get('/logout', userController.logout)
 
 module.exports = router
