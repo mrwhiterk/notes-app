@@ -11,7 +11,7 @@ router.post('/', async (req, res) => {
   try {
     const me = new User({
       username: 'mrwhiterk',
-      email: 'mrwhiterk@gmail.com',
+      email: 'ryan@gmail.com',
       password: '1234doggy'
     })
 
