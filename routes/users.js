@@ -1,18 +1,18 @@
-var express = require('express');
-var router = express.Router();
+var express = require('express')
+var router = express.Router()
 const User = require('../models/user')
 
 /* GET users listing. */
-router.get('/', function(req, res, next) {
+router.get('/', function (req, res, next) {
 
-});
+})
 
 router.post('/', async (req, res) => {
   try {
-    let { username, email, password, password2 } = req.body;
+    const { username, email, password, password2 } = req.body
 
     if (password !== password2) {
-      throw 'passwords must match'
+      throw Error('passwords must match')
     }
 
     const me = User({
@@ -25,8 +25,8 @@ router.post('/', async (req, res) => {
 
     res.send(me)
   } catch (err) {
-    res.send({err})
+    res.send({ err })
   }
 })
 
-module.exports = router;
+module.exports = router
