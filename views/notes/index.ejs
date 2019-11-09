@@ -13,11 +13,11 @@
   <% notes.forEach(note => { %>
   <div class="card" style="width: 18rem;">
     <div class="card-body d-flex flex-column">
-      <a href="/notes/<%= note.id %>"><h5 class="card-title">Title: <%= note.title %></h5></a>
+      <a href="/notes/<%= note.id %>"><h5 class="card-title"><%= note.title %></h5></a>
       <h6 class="card-subtitle mb-2 text-muted">
-        By: <%= note.author.username %>
+        <%= note.author.username %>
       </h6>
-      <p class="card-text"><%= note.body %></p>
+
 
       <div class="d-flex align-items-center justify-content-between">
         <span>
