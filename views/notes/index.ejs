@@ -12,25 +12,29 @@
 <div class="d-flex justify-content-evenly flex-wrap">
   <% notes.forEach(note => { %>
   <div class="card" style="width: 18rem;">
-    <div class="card-body">
-      <h5 class="card-title">Title: <%= note.title %></h5>
+    <div class="card-body d-flex flex-column">
+      <a href="/notes/<%= note.id %>"><h5 class="card-title">Title: <%= note.title %></h5></a>
       <h6 class="card-subtitle mb-2 text-muted">
         By: <%= note.author.username %>
       </h6>
       <p class="card-text"><%= note.body %></p>
 
-  
-      <% if (user.id === note.author.id) { %>
-      <form
-        id="deleteBtn"
-        action="/notes/<%= note.id %>?_method=DELETE"
-        method="POST"
-      >
-        <button type="submit" class="btn"><i class="fas fa-trash"></i></button>
-      </form>
-      <% } else { %>
-      <a href="#" class="card-link">Bookmark</a>
-      <% } %>
+      <div class="d-flex align-items-center justify-content-between">
+        <span>
+          <i class="far fa-thumbs-up"></i><%= note.likes.length %>
+          </span>
+        <% if (user.id === note.author.id) { %>
+        <form
+          id="deleteBtn"
+          action="/notes/<%= note.id %>?_method=DELETE"
+          method="POST"
+        >
+          <button type="submit" class="btn"><i class="fas fa-trash"></i></button>
+        </form>
+        <% } else { %>
+        <a href="#" class="card-link">Bookmark</a>
+        <% } %>
+      </div>
     </div>
   </div>
   

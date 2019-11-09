@@ -1,0 +1,14 @@
+<% include ../partials/header %> <% include ../partials/nav %>
+
+<div class="media">
+  <img src="https://via.placeholder.com/100" class="align-self-start mr-3" alt="...">
+  <div class="media-body">
+    <h5 class="mt-0"><%= note.title %></h5>
+    <h6 class="mt-1"><%= note.author.username %></h6>
+    
+    <p class="border mt-4"><%= note.body %></p>
+    <a href="/notes/like/<%= note.id %>"><i class="far fa-thumbs-up"></i></a> <%= note.likes.length %>
+  </div>
+</div>
+
+<% include ../partials/footer %>

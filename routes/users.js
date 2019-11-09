@@ -22,7 +22,7 @@ router.post('/', async (req, res) => {
     const userName = await User.findOne({ username })
     if (userName) {
       req.flash('errors', 'username already taken')
-      return res.redirect(301, '/signup')
+      return res.redirect('/signup')
     }
 
     const me = User({

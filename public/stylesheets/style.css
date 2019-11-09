@@ -28,3 +28,7 @@ a {
 #deleteBtn {
   display: inline;
 }
+
+.fa-thumbs-up {
+  font-size: 2.5em;
+}

@@ -1,6 +1,3 @@
-const User = require('../models/user')
-const passport = require('passport')
-const bcrypt = require('bcryptjs')
 const Note = require('../models/note')
 
 module.exports = {
@@ -27,6 +24,25 @@ module.exports = {
       }
       res.status(400).redirect('back')
     }
+  },
+
+  like: async (req, res) => {
+    try {
+      const note = await Note.findById(req.params.id)
+
+      const match = note.likes.find(id => id.toString() === req.user.id)
+
+      if (!match) {
+        note.likes.push(req.user.id)
+      } else {
+        note.likes = note.likes.filter(id => id.toString() !== req.user.id)
+      }
+      await note.save()
+    } catch (err) {
+      console.log(err)
+      req.flash('errors', err)
+    }
+    res.redirect('back')
   },
 
   deleteNote: async (req, res) => {
