@@ -1,23 +1,44 @@
 <% include ../partials/header %> <% include ../partials/nav %>
 
 <form class="mt-4" action="/notes" method="POST">
+  <% errors.forEach( error => { %>
+  <div class="alert alert-danger alert-dismissible fade show" role="alert">
+    <%= error.message || error %>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <% }) %>
   <div class="form-group">
     <label for="titleInput1">Title</label>
-    <input type="text" name='title' class="form-control" id="titleInput1" placeholder="title">
+    <input
+      type="text"
+      name="title"
+      class="form-control"
+      id="titleInput1"
+      placeholder="title"
+      required
+    />
   </div>
   <div class="form-group">
     <label for="categorySelect1">Category</label>
-    <select name="category" class="form-control" id="categorySelect1">
+    <select name="category" class="form-control" id="categorySelect1" required>
       <option>general</option>
       <option>html/css</option>
       <option>javascript</option>
       <option>node</option>
     </select>
   </div>
-  
+
   <div class="form-group">
     <label for="noteTextarea1">Body</label>
-    <textarea name="body" class="form-control" id="noteTextarea1" rows="15"></textarea>
+    <textarea
+      name="body"
+      class="form-control"
+      id="noteTextarea1"
+      rows="15"
+      required
+    ></textarea>
   </div>
 
   <button class="btn btn-lg btn-primary" type="submit">Create Note</button>

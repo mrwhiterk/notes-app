@@ -9,7 +9,7 @@
   </div>
   <% }) %>
 </div>
-<div class="d-flex">
+<div class="d-flex justify-content-evenly flex-wrap">
   <% notes.forEach(note => { %>
   <div class="card" style="width: 18rem;">
     <div class="card-body">
@@ -18,7 +18,7 @@
         By: <%= note.author.username %>
       </h6>
       <p class="card-text"><%= note.body %></p>
-      <a href="#" class="card-link">Show</a>
+
   
       <% if (user.id === note.author.id) { %>
       <form

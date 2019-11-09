@@ -17,12 +17,16 @@ module.exports = {
       })
 
       await note.save()
+      req.flash('success', 'successfully created note')
+      res.redirect('/notes')
     } catch (err) {
-      console.log(err)
-      res.status(400).send({ err })
+      if (err.code == 11000) {
+        req.flash('errors', 'Title is already taken')
+      } else {
+        req.flash('errors', err.errmsg)
+      }
+      res.status(400).redirect('back')
     }
-
-    res.redirect('back')
   },
 
   deleteNote: async (req, res) => {
