@@ -23,5 +23,16 @@ module.exports = {
     }
 
     res.redirect('back')
+  },
+
+  deleteNote: async (req, res) => {
+    try {
+      await Note.findByIdAndDelete(req.params.id)
+      req.flash('success', 'note deleted')
+    } catch (err) {
+      console.log(err)
+      req.flash('errors', err.message)
+    }
+    res.redirect('back')
   }
 }

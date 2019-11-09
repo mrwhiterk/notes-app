@@ -24,3 +24,7 @@ a {
 #signinForm {
   margin-top: 10%;
 }
+
+#deleteBtn {
+  display: inline;
+}
