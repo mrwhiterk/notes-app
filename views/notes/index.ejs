@@ -9,29 +9,31 @@
   </div>
   <% }) %>
 </div>
-
-<% notes.forEach(note => { %>
-<div class="card" style="width: 18rem;">
-  <div class="card-body">
-    <h5 class="card-title">Title: <%= note.title %></h5>
-    <h6 class="card-subtitle mb-2 text-muted">
-      By: <%= note.author.username %>
-    </h6>
-    <p class="card-text"><%= note.body %></p>
-    <a href="#" class="card-link">Show</a>
-
-    <% if (user.id === note.author.id) { %>
-    <form
-      id="deleteBtn"
-      action="/notes/<%= note.id %>?_method=DELETE"
-      method="POST"
-    >
-      <button type="submit" class="btn"><i class="fas fa-trash"></i></button>
-    </form>
-    <% } else { %>
-    <a href="#" class="card-link">Bookmark</a>
-    <% } %>
+<div class="d-flex">
+  <% notes.forEach(note => { %>
+  <div class="card" style="width: 18rem;">
+    <div class="card-body">
+      <h5 class="card-title">Title: <%= note.title %></h5>
+      <h6 class="card-subtitle mb-2 text-muted">
+        By: <%= note.author.username %>
+      </h6>
+      <p class="card-text"><%= note.body %></p>
+      <a href="#" class="card-link">Show</a>
+  
+      <% if (user.id === note.author.id) { %>
+      <form
+        id="deleteBtn"
+        action="/notes/<%= note.id %>?_method=DELETE"
+        method="POST"
+      >
+        <button type="submit" class="btn"><i class="fas fa-trash"></i></button>
+      </form>
+      <% } else { %>
+      <a href="#" class="card-link">Bookmark</a>
+      <% } %>
+    </div>
   </div>
+  
+  <% }) %> 
 </div>
-
-<% }) %> <% include ../partials/footer %>
+<% include ../partials/footer %>
