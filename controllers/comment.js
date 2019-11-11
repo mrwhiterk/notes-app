@@ -1,5 +1,4 @@
 const Comment = require('../models/comment')
-const passport = require('passport')
 
 module.exports = {
   create: async (req, res) => {
@@ -9,11 +8,19 @@ module.exports = {
       const comment = new Comment({
         body,
         author: req.user._id,
-        note: req.params.noteId
+        note: req.params.id
       })
 
       await comment.save()
 
+      res.redirect('back')
+    } catch (error) {
+      throw new Error(error)
+    }
+  },
+  delete: async (req, res) => {
+    try {
+      await Comment.findByIdAndDelete(req.params.id)
       res.redirect('back')
     } catch (error) {
       throw new Error(error)

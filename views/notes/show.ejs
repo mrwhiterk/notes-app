@@ -16,19 +16,35 @@
   </div>
 </div>
 
-
 <div class="col-8 offset-2">
   <ul class="list-unstyled">
-<% note.comments.forEach(comment => { %>
-<li class="media border mb-1">
-  <img src="https://via.placeholder.com/50" class="mr-3" alt="profile img" />
-  <div class="media-body">
-    <p class="mt-1 mb-1"><%= comment.author.username %></p>
-    <%= comment.body %>
-  </div>
-</li>
+    <% note.comments.forEach(comment => { %>
+    <li class="media border mb-1">
+      <img
+        src="https://via.placeholder.com/50"
+        class="mr-3"
+        alt="profile img"
+      />
+      <div class="media-body d-flex">
+        <div class="flex-grow-1">
+          <p class="mt-1 mb-1"><%= comment.author.username %></p>
+          <%= comment.body %>
+        </div>
+        <% if (comment.author.id === user.id) { %>
+        <form
+          action="/comments/<%= comment._id %>?_method=DELETE"
+          method="POST"
+        >
+          <button type="submit" class="btn">
+            <i class="fas fa-trash"></i>
+          </button>
+        </form>
 
-<% }) %>
+        <% } %>
+      </div>
+    </li>
+
+    <% }) %>
   </ul>
   <h5 class="border-bottom">Comments (<%= note.comments.length%>)</h5>
   <form action="/comments/<%= note._id %>" method="POST">
