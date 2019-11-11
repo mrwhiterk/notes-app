@@ -35,4 +35,10 @@ const noteSchema = new mongoose.Schema(
   }
 )
 
+noteSchema.virtual('comments', {
+  ref: 'Comment',
+  localField: '_id',
+  foreignField: 'note'
+})
+
 module.exports = mongoose.model('Note', noteSchema)

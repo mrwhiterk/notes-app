@@ -1,14 +1,49 @@
 <% include ../partials/header %> <% include ../partials/nav %>
 
 <div class="media mt-2">
-  <img src="https://via.placeholder.com/100" class="align-self-start mr-3" alt="...">
+  <img
+    src="https://via.placeholder.com/100"
+    class="align-self-start mr-3"
+    alt=""
+  />
   <div class="media-body">
     <h5 class="mt-0"><%= note.title %></h5>
     <h6 class="mt-1"><%= note.author.username %></h6>
-    
-    <p class="border mt-4"><%= note.body %></p>
-    <a href="/notes/like/<%= note.id %>"><i class="far fa-thumbs-up"></i></a> <%= note.likes.length %>
+
+    <p class="mt-4"><%= note.body %></p>
+    <a href="/notes/like/<%= note.id %>"><i class="far fa-thumbs-up"></i></a>
+    <%= note.likes.length %>
   </div>
+</div>
+
+
+<div class="col-8 offset-2">
+  <ul class="list-unstyled">
+<% note.comments.forEach(comment => { %>
+<li class="media border mb-1">
+  <img src="https://via.placeholder.com/50" class="mr-3" alt="profile img" />
+  <div class="media-body">
+    <p class="mt-1 mb-1"><%= comment.author.username %></p>
+    <%= comment.body %>
+  </div>
+</li>
+
+<% }) %>
+  </ul>
+  <h5 class="border-bottom">Comments (<%= note.comments.length%>)</h5>
+  <form action="/comments/<%= note._id %>" method="POST">
+    <div class="form-group">
+      <label for="exampleFormControlTextarea1"></label>
+      <textarea
+        class="form-control"
+        name="body"
+        id="exampleFormControlTextarea1"
+        rows="3"
+        placeholder="Leave a comment..."
+      ></textarea>
+    </div>
+    <button class="btn btn-primary" type="submit">Submit</button>
+  </form>
 </div>
 
 <% include ../partials/footer %>

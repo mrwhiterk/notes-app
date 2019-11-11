@@ -1,6 +1,19 @@
 const Note = require('../models/note')
 
 module.exports = {
+  index: async (req, res, next) => {
+    try {
+      await Note.find()
+        .populate('author')
+        .exec((err, notes) => {
+          if (err) throw err
+
+          res.render('notes', { notes })
+        })
+    } catch (err) {
+      throw new Error(err)
+    }
+  },
   create: async (req, res) => {
     console.log(req.body)
 
@@ -23,6 +36,24 @@ module.exports = {
         req.flash('errors', err.errmsg)
       }
       res.status(400).redirect('back')
+    }
+  },
+
+  show: async (req, res) => {
+    try {
+      await Note.findById(req.params.id)
+        .populate('author')
+        .exec(async (err, note) => {
+          if (err) throw err
+
+          await note.populate('comments').execPopulate()
+
+          console.log(note.comments)
+
+          res.render('notes/show', { note })
+        })
+    } catch (err) {
+      req.flash('errors', err)
     }
   },
 

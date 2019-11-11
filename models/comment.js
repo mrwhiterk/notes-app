@@ -28,4 +28,8 @@ const commentSchema = new mongoose.Schema(
   }
 )
 
+commentSchema.pre('find', function () {
+  this.populate('author')
+})
+
 module.exports = mongoose.model('Comment', commentSchema)
