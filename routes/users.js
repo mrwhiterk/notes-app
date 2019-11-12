@@ -1,9 +1,11 @@
 var express = require('express')
 var router = express.Router()
 const User = require('../models/user')
+const multer = require('multer')
+const sharp = require('sharp')
 
 /* GET users listing. */
-router.get('/', function (req, res, next) {})
+router.get('/', function(req, res, next) {})
 
 router.post('/', async (req, res) => {
   try {
@@ -46,8 +48,45 @@ router.post('/', async (req, res) => {
   }
 })
 
-router.get('/profile', (req, res) => {
-  res.render('profile')
+router.get('/profile', async (req, res) => {
+  res.render('profile', { avatar: req.user.avatar.toString('base64') })
 })
+
+const upload = multer({
+  limits: {
+    fileSize: 1200000
+  },
+  fileFilter(req, file, cb) {
+    if (!file.originalname.match(/\.(jpg|jpeg|png)$/)) {
+      return cb(new Error('Please upload an jpg, jpeg, png'))
+    }
+    cb(undefined, true)
+  }
+})
+
+router.post(
+  '/avatar',
+  upload.single('avatar'),
+  async (req, res) => {
+    const buffer = await sharp(req.file.buffer)
+      .resize({ width: 250, height: 250 })
+      .png()
+      .toBuffer()
+
+    req.user.avatar = buffer
+
+    await req.user.save()
+
+    req.flash('success', 'successfully uploaded avatar img')
+    res.redirect('back')
+  },
+  (error, req, res, next) => {
+    if (error) {
+      console.log(error)
+    }
+    req.flash('errors', 'please upload a jpg, jpeg, or png file')
+    res.redirect('back')
+  }
+)
 
 module.exports = router
