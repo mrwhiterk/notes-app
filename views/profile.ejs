@@ -17,8 +17,7 @@
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
-    <% }) %> 
-    <% success.forEach( message => { %>
+    <% }) %> <% success.forEach( message => { %>
     <div
       class="alert alert-primary alert-dismissible fade show mt-2"
       role="alert"
@@ -36,17 +35,24 @@
     <% }) %>
 
     <div class="row">
-      <div class="col-md-4 d-flex align-items-center">
-        <form
-          class="d-flex"
-          id="uploadForm"
-          action="/users/avatar"
-          method="POST"
-          enctype="multipart/form-data"
-        >
-          <input class="btn" type="file" name="avatar" />
-          <button class="btn btn-dark" type="submit"><i class='fas fa-file-upload'></i></button>
-        </form>
+      <div class="col-md-4 d-flex flex-column justify-content-center">
+        <div>
+          <p class="text-center"><u>Upload Profile Picture</u></p>
+        </div>
+        <div>
+          <form
+            class="d-flex"
+            id="uploadForm"
+            action="/users/avatar"
+            method="POST"
+            enctype="multipart/form-data"
+          >
+            <input class="btn" type="file" name="avatar" />
+            <button class="btn btn-dark" type="submit">
+              <i class="fas fa-file-upload"></i>
+            </button>
+          </form>
+        </div>
       </div>
       <div class="col-md-6">
         <div class="profile-head pt-5 pr-5 pb-5">
@@ -84,7 +90,11 @@
     <div class="row">
       <div class="col-md-4">
         <div class="profile-img">
+          <% if (avatar) { %>
           <img src="data:image/png;base64,<%= avatar %>" />
+          <% } else { %>
+          <img src="https://www.fillmurray.com/250/250" />
+          <% } %>
         </div>
       </div>
 
@@ -108,15 +118,67 @@
               </div>
               <div class="col-md-9 border-left"><%= user.email %></div>
             </div>
-
-            <div class="row"></div>
           </div>
           <div
             class="tab-pane fade"
             id="profile"
             role="tabpanel"
             aria-labelledby="profile-tab"
-          ></div>
+          >
+            
+            
+            <form class="form-signin" method="POST" action="/users?_method=PUT">
+              <label for="inputName" class="">Username: <%= user.username %></label>
+              <input
+                type="text"
+                id="inputName"
+                class="form-control"
+                value="<%= user.username %>"
+                name="username"
+              />
+
+              <br />
+              
+              <button class="btn btn-lg btn-outline-dark" type="submit">
+                Update Profile
+              </button>
+            </form>
+            <form class="form-signin mt-5" method="POST" action="/users/updatePassword?_method=PUT">
+              <label for="inputEmail" class="mt-1">Old Password</label>
+              <input
+                type="text"
+                id="inputOldPassword"
+                class="form-control"
+                placeholder="Old password"
+                name="oldPassword"
+                required
+              />
+              <label for="inputEmail2" class="mt-1">New Password</label>
+              <input
+                type="text"
+                id="inputNewPassword"
+                class="form-control"
+                placeholder="New password"
+                name="newPassword"
+                required
+              />
+              <label for="inputEmail3" class="mt-1">Confirm Password</label>
+              <input
+                type="text"
+                id="inputConfirmPassword"
+                class="form-control"
+                placeholder="Confirm password"
+                name="confirmPassword"
+                required
+              />
+
+              <br />
+              
+              <button class="btn btn-lg btn-outline-dark" type="submit">
+                Update Password
+              </button>
+            </form>
+          </div>
         </div>
       </div>
     </div>

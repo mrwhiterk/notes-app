@@ -48,9 +48,10 @@ module.exports = {
 
           await note.populate('comments').execPopulate()
 
-          console.log(note.comments)
-
-          res.render('notes/show', { note })
+          res.render('notes/show', {
+            note,
+            avatar: note.author.avatar.toString('base64')
+          })
         })
     } catch (err) {
       req.flash('errors', err)

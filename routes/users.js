@@ -3,6 +3,7 @@ var router = express.Router()
 const User = require('../models/user')
 const multer = require('multer')
 const sharp = require('sharp')
+const userController = require('../controllers/user')
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {})
@@ -49,12 +50,15 @@ router.post('/', async (req, res) => {
 })
 
 router.get('/profile', async (req, res) => {
-  res.render('profile', { avatar: req.user.avatar.toString('base64') })
+  if (req.user.avatar) {
+    return res.render('profile', { avatar: req.user.avatar.toString('base64') })
+  }
+  res.render('profile', { avatar: '' })
 })
 
 const upload = multer({
   limits: {
-    fileSize: 1200000
+    fileSize: 2200000
   },
   fileFilter(req, file, cb) {
     if (!file.originalname.match(/\.(jpg|jpeg|png)$/)) {
@@ -88,5 +92,33 @@ router.post(
     res.redirect('back')
   }
 )
+
+router.put('', async (req, res) => {
+  const updates = Object.keys(req.body)
+  const allowedUpdates = ['username']
+  const isValidOperation = updates.every(item => allowedUpdates.includes(item))
+
+  if (!isValidOperation) {
+    req.flash('errors', 'invalid request')
+    return res.redirect('back')
+  }
+
+  try {
+    updates.forEach(update => (req.user[update] = req.body[update]))
+
+    await req.user.save()
+
+    req.flash('success', 'successfully updated profile')
+    res.redirect('back')
+  } catch (error) {
+    console.log(error)
+    if (error.code == 11000) {
+      req.flash('errors', 'username already taken')
+      res.redirect('back')
+    }
+  }
+})
+
+router.put('/updatePassword', userController.update)
 
 module.exports = router

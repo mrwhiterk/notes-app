@@ -1,11 +1,15 @@
 <% include ../partials/header %> <% include ../partials/nav %>
 
 <div class="media mt-2">
+  <% if (avatar) { %>
   <img
-    src="https://via.placeholder.com/100"
+    src="data:image/png;base64,<%= avatar %>"
     class="align-self-start mr-3"
-    alt=""
+    height="100px"
   />
+  <% } else { %>
+  <img src="https://www.fillmurray.com/100/100" class="align-self-start mr-3" />
+  <% } %>
   <div class="media-body">
     <h5 class="mt-0"><%= note.title %></h5>
     <h6 class="mt-1"><%= note.author.username %></h6>
@@ -21,13 +25,14 @@
     <% note.comments.forEach(comment => { %>
     <li class="media border mb-1">
       <img
-        src="https://via.placeholder.com/50"
+        src="data:image/png;base64,<%= comment.author.avatar.toString('base64') %>"
+        height="50px"
         class="mr-3"
         alt="profile img"
       />
       <div class="media-body d-flex">
         <div class="flex-grow-1">
-          <p class="mt-1 mb-1"><%= comment.author.username %></p>
+          <p class="mt-1 mb-1"><u><%= comment.author.username %></u></p>
           <%= comment.body %>
         </div>
         <% if (comment.author.id === user.id) { %>
