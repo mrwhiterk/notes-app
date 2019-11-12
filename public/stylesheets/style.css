@@ -32,3 +32,10 @@ a {
 .fa-thumbs-up {
   font-size: 2.5em;
 }
+
+/* profile section */
+.profile-img {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
