@@ -54,7 +54,48 @@ module.exports = {
   },
   show: async (req, res) => {
     await req.user.populate('notes').execPopulate()
+    await req.user.populate('bookmarks').execPopulate()
     res.render('profile')
+  },
+
+  bookmark: async (req, res) => {
+    if (req.user.bookmarks.includes(req.params.noteId)) {
+      req.flash('errors', 'book already in collection')
+      return res.redirect('back')
+    } else {
+      req.user.bookmarks.push(req.params.noteId)
+    }
+
+    try {
+      await req.user.save()
+
+      req.flash('success', 'bookmarked note')
+      res.redirect('back')
+    } catch (error) {
+      req.flash('errors', error.errmsg)
+      res.redirect('back')
+    }
+  },
+
+  removeBookmark: async (req, res) => {
+    if (req.user.bookmarks.includes(req.params.noteId)) {
+      req.user.bookmarks = req.user.bookmarks.filter(
+        id => id.toString() !== req.params.noteId
+      )
+    } else {
+      req.flash('errors', 'this note is not bookmarked')
+      return res.redirect('back')
+    }
+
+    try {
+      await req.user.save()
+
+      req.flash('success', 'removed bookmarked note')
+      res.redirect('back')
+    } catch (error) {
+      req.flash('errors', error.errmsg)
+      res.redirect('back')
+    }
   },
 
   passportLogin: passport.authenticate('local-login', {

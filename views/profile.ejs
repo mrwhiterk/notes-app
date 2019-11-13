@@ -99,6 +99,19 @@
                 Notes
               </a>
             </li>
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                id="bookmarks-tab"
+                data-toggle="tab"
+                href="#bookmarks"
+                role="tab"
+                aria-controls="profile"
+                aria-selected="true"
+              >
+                Bookmarks
+              </a>
+            </li>
           </ul>
         </div>
       </div>
@@ -235,10 +248,40 @@
                   <a href="/notes/<%= note.id %>/edit">
                     <i class="fas fa-user-edit ml-3"></i>
                   </a>
-                  <button type="submit" class="btn btn-primary-outline deleteNote">
+                  <button
+                    type="submit"
+                    class="btn btn-primary-outline deleteNote"
+                  >
                     <i class="fas fa-trash"></i>
-                    </button>
-                    <input id="noteID" type="hidden" value="<%= note.id %>" />
+                  </button>
+                  <input id="noteID" type="hidden" value="<%= note.id %>" />
+                </div>
+              </li>
+
+              <% }) %>
+            </ul>
+          </div>
+          <div
+            class="tab-pane fade"
+            id="bookmarks"
+            role="tabpanel"
+            aria-labelledby="bookmarks-tab"
+          >
+            <ul class="list-group">
+              <% user.bookmarks.forEach(bookmark => { %>
+              <li
+                class="list-group-item d-flex justify-content-between p-2 align-items-center"
+              >
+                <a class="pl-2" href="/notes/<%= bookmark._id %>">
+                  <%= bookmark.title %>
+                </a>
+
+                <div class="d-flex justify-content-end align-items-center">
+                  <a href="/notes/<%= bookmark.id %>/clone">
+                    <i class="fas fa-copy ml-5"></i>
+                  </a>
+                  
+                  
                   
                 </div>
               </li>

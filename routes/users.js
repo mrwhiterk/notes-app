@@ -7,6 +7,10 @@ router.post('/', userController.create)
 
 router.get('/profile', userController.redirectIfNotAuthenticated, userController.show)
 
+router.get('/bookmark/:noteId', userController.bookmark)
+
+router.get('/removeBookmark/:noteId', userController.removeBookmark)
+
 router.post(
   '/avatar',
   upload.single('avatar'),

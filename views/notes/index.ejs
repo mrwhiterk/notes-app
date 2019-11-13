@@ -13,6 +13,18 @@
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
+    <% }) %> <% errors.forEach( error => { %>
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+      <%= error.message || error %>
+      <button
+        type="button"
+        class="close"
+        data-dismiss="alert"
+        aria-label="Close"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
     <% }) %>
   </div>
   <div class="d-flex flex-wrap">
@@ -41,8 +53,17 @@
               <i class="fas fa-trash"></i>
             </button>
           </form>
+          <% } else { %> 
+            <% if (user.bookmarks.includes(note._id)) { %>
+          <a href="/users/removeBookmark/<%= note._id %>" class="card-link">
+            <i class="fas fa-unlink"></i>
+          </a>
+
           <% } else { %>
-          <a href="#" class="card-link">Bookmark</a>
+          <a href="/users/bookmark/<%= note._id %>" class="card-link">
+            <i class="fas fa-bookmark"></i>
+          </a>
+          <% } %> 
           <% } %>
         </div>
       </div>

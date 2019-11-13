@@ -16,7 +16,7 @@ const userSchema = new mongoose.Schema(
       required: true,
       trim: true,
       lowercase: true,
-      validate (value) {
+      validate(value) {
         if (!validator.isEmail(value)) {
           throw new Error('email is invalid')
         }
@@ -27,7 +27,7 @@ const userSchema = new mongoose.Schema(
       required: true,
       trim: true,
       // minlength: 7,
-      validate (value) {
+      validate(value) {
         if (value.toLowerCase().includes('password')) {
           throw new Error("password cannot include the string 'password'")
         }
@@ -35,7 +35,13 @@ const userSchema = new mongoose.Schema(
     },
     avatar: {
       type: Buffer
-    }
+    },
+    bookmarks: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Note'
+      }
+    ]
   },
   {
     timestamps: true
@@ -48,7 +54,7 @@ userSchema.virtual('notes', {
   foreignField: 'author'
 })
 
-userSchema.pre('save', async function (next) {
+userSchema.pre('save', async function(next) {
   const user = this
   if (user.isModified('password')) {
     user.password = await bcrypt.hash(user.password, 8)

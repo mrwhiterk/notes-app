@@ -102,7 +102,7 @@ module.exports = {
       } else {
         newNote.title =
           note.title.split('(')[0] +
-          `(forked from ${OriginalAuthor}/${note.title})`
+          ` (forked from ${OriginalAuthor}/${note.title})`
       }
 
       newNote.body = note.body
