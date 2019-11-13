@@ -3,6 +3,46 @@ const passport = require('passport')
 const bcrypt = require('bcryptjs')
 
 module.exports = {
+  create: async (req, res) => {
+    try {
+      const { username, email, password, password2 } = req.body
+
+      if (password !== password2) {
+        throw Error('passwords must match')
+      }
+
+      const user = await User.findOne({ email })
+      if (user) {
+        req.flash('errors', 'email already taken')
+        return res.redirect(301, '/signup')
+      }
+
+      const userName = await User.findOne({ username })
+      if (userName) {
+        req.flash('errors', 'username already taken')
+        return res.redirect('/signup')
+      }
+
+      const me = User({
+        username,
+        email,
+        password
+      })
+
+      await me.save()
+
+      req.login(me, err => {
+        if (err) {
+          return res.status(400).send({ message: err })
+        }
+
+        res.redirect('/')
+      })
+    } catch (err) {
+      console.log(err)
+      res.send(err)
+    }
+  },
   redirectIfNotAuthenticated: (req, res, next) => {
     if (!req.isAuthenticated()) return res.redirect('/signup')
     next()
@@ -24,8 +64,6 @@ module.exports = {
   },
 
   update: async (req, res) => {
-    console.log(req.body)
-
     const updates = Object.keys(req.body)
     const allowedUpdates = ['oldPassword', 'newPassword', 'confirmPassword']
     const isValidOperation = updates.every(item =>
