@@ -5,7 +5,7 @@ const upload = require('../utils/multer')
 
 router.post('/', userController.create)
 
-router.get('/profile', userController.show)
+router.get('/profile', userController.redirectIfNotAuthenticated, userController.show)
 
 router.post(
   '/avatar',

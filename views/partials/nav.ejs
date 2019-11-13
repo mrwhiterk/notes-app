@@ -12,6 +12,18 @@
     <span class="navbar-toggler-icon"></span>
   </button>
 
+  <form class="form-inline my-2 my-lg-0" >
+      <input
+        class="form-control mr-sm-2"
+        type="search"
+        placeholder="Search for note.."
+        aria-label="Search"
+      />
+      <button class="btn btn-light my-2 my-sm-0" type="submit">
+        Search
+      </button>
+    </form>
+
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
@@ -39,22 +51,13 @@
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
           <a class="dropdown-item" href="/notes">Browse Notes</a>
           <a class="dropdown-item" href="/notes/new">Create Note</a>
+          <a class="dropdown-item" href="/users">Members</a>
           <div class="dropdown-divider"></div>
           <a class="dropdown-item" href="#">Something else here</a>
         </div>
       </li>
     </ul>
-    <form class="form-inline my-2 my-lg-0" >
-      <input
-        class="form-control mr-sm-2"
-        type="search"
-        placeholder="Search for note.."
-        aria-label="Search"
-      />
-      <button class="btn btn-outline-danger my-2 my-sm-0" type="submit">
-        Search
-      </button>
-    </form>
+    
 
     <ul class="navbar-nav ml-auto">
       <% if (user != undefined) { %>
