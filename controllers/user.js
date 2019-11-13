@@ -1,6 +1,8 @@
 const User = require('../models/user')
 const passport = require('passport')
 const bcrypt = require('bcryptjs')
+const multer = require('multer')
+const sharp = require('sharp')
 
 module.exports = {
   create: async (req, res) => {
@@ -51,6 +53,9 @@ module.exports = {
     if (req.isAuthenticated()) return res.redirect('/')
     next()
   },
+  show: async (req, res) => {
+    res.render('profile')
+  },
 
   passportLogin: passport.authenticate('local-login', {
     successRedirect: '/',
@@ -63,7 +68,7 @@ module.exports = {
     res.redirect('/')
   },
 
-  update: async (req, res) => {
+  updatePassword: async (req, res) => {
     const updates = Object.keys(req.body)
     const allowedUpdates = ['oldPassword', 'newPassword', 'confirmPassword']
     const isValidOperation = updates.every(item =>
@@ -106,5 +111,54 @@ module.exports = {
       req.flash('errors', error)
       res.redirect('back')
     }
+  },
+
+  update: async (req, res) => {
+    const updates = Object.keys(req.body)
+    const allowedUpdates = ['username']
+    const isValidOperation = updates.every(item =>
+      allowedUpdates.includes(item)
+    )
+
+    if (!isValidOperation) {
+      req.flash('errors', 'invalid request')
+      return res.redirect('back')
+    }
+
+    try {
+      updates.forEach(update => (req.user[update] = req.body[update]))
+
+      await req.user.save()
+
+      req.flash('success', 'successfully updated profile')
+      res.redirect('back')
+    } catch (error) {
+      if (error.code === 11000) {
+        req.flash('errors', 'username already taken')
+        res.redirect('back')
+      }
+    }
+  },
+
+  uploadAvatar: async (req, res) => {
+    const buffer = await sharp(req.file.buffer)
+      .resize({ width: 250, height: 250 })
+      .png()
+      .toBuffer()
+
+    req.user.avatar = buffer
+
+    await req.user.save()
+
+    req.flash('success', 'successfully uploaded avatar img')
+    res.redirect('back')
+  },
+
+  catchAvatarErrors: async (error, req, res) => {
+    if (error) {
+      console.log(error)
+    }
+    req.flash('errors', 'please upload a jpg, jpeg, or png file')
+    res.redirect('back')
   }
 }
