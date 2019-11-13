@@ -2,8 +2,11 @@ const Note = require('../models/note')
 
 module.exports = {
   index: async (req, res, next) => {
+ 
     try {
-      await Note.find()
+      await Note.find({
+        title: { $regex: new RegExp(req.query.title || ''), $options: 'i' }
+      })
         .populate('author')
         .exec((err, notes) => {
           if (err) throw err
