@@ -141,6 +141,10 @@ module.exports = {
   },
 
   uploadAvatar: async (req, res) => {
+    if (!req.file) {
+      req.flash('errors', 'please upload file first')
+      return res.redirect('back')
+    }
     const buffer = await sharp(req.file.buffer)
       .resize({ width: 250, height: 250 })
       .png()
@@ -160,5 +164,17 @@ module.exports = {
     }
     req.flash('errors', 'please upload a jpg, jpeg, or png file')
     res.redirect('back')
+  },
+
+  deleteAvatar: async (req, res) => {
+    try {
+      req.user.avatar = undefined
+      await req.user.save()
+      req.flash('success', 'successfully removed avatar')
+      res.redirect('back')
+    } catch (err) {
+      req.flash('errors', err)
+      res.redirect('back')
+    }
   }
 }

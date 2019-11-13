@@ -18,4 +18,6 @@ router.put('/', userController.update)
 
 router.put('/updatePassword', userController.updatePassword)
 
+router.delete('/deleteAvatar', userController.deleteAvatar)
+
 module.exports = router

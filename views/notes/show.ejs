@@ -8,7 +8,7 @@
     height="100px"
   />
   <% } else { %>
-  <img src="https://www.fillmurray.com/100/100" class="align-self-start mr-3" />
+  <img src="/images/default-logo.png" class="align-self-start mr-3" />
   <% } %>
   <div class="media-body">
     <h5 class="mt-0"><%= note.title %></h5>
@@ -24,12 +24,24 @@
   <ul class="list-unstyled">
     <% note.comments.forEach(comment => { %>
     <li class="media border mb-1">
-      <img
-        src="data:image/png;base64,<%= comment.author.avatar.toString('base64') %>"
-        height="50px"
-        class="mr-3"
-        alt="profile img"
-      />
+      <% if (comment.author.avatar) { %>
+        <img
+          src="data:image/png;base64,<%= comment.author.avatar.toString('base64') %>"
+          height="50px"
+          class="mr-3 border"
+          alt="profile img"
+        />
+
+      <% } else { %>
+<img
+          src="/images/default-logo.png"
+          height="50px"
+          width="50px"
+          class="mr-3 border"
+          alt="profile img"
+        />
+        <% } %>
+
       <div class="media-body d-flex">
         <div class="flex-grow-1">
           <p class="mt-1 mb-1"><u><%= comment.author.username %></u></p>
