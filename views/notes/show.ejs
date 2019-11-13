@@ -1,5 +1,6 @@
 <% include ../partials/header %> <% include ../partials/nav %>
 
+<div class="container">
   <% errors.forEach( error => { %>
   <div class="alert alert-danger alert-dismissible fade show mt-2" role="alert">
     <%= error.message || error %>
@@ -7,46 +8,56 @@
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
-  <% }) %>
-  <% success.forEach( message => { %>
-  <div class="alert alert-primary alert-dismissible fade show mt-2" role="alert">
+  <% }) %> <% success.forEach( message => { %>
+  <div
+    class="alert alert-primary alert-dismissible fade show mt-2"
+    role="alert"
+  >
     <%= message %>
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
   <% }) %>
-<div class="media mt-5" id="note-section">
-  
-  <% if (note.author.avatar) { %>
-  <img
-    src="data:image/png;base64,<%= note.author.avatar.toString('base64') %>"
-    class="align-self-start mr-3 border"
-    height="100px"
-  />
-  <% } else { %>
-  <img src="/images/default-logo.png" class="align-self-start mr-3 border" />
-  <% } %>
-  <div class="media-body">
-    <h5 class="mt-0"><%= note.title %></h5>
-    <h6 class="mt-1"><%= note.author.username %></h6>
+  <div class="media mt-5" id="note-section">
+    <% if (note.author.avatar) { %>
+    <img
+      src="data:image/png;base64,<%= note.author.avatar.toString('base64') %>"
+      class="align-self-start mr-3 border"
+      height="100px"
+    />
+    <% } else { %>
+    <img src="/images/default-logo.png" class="align-self-start mr-3 border" />
+    <% } %>
+    <div class="media-body">
+      <h5 class="mt-0"><%= note.title %></h5>
+      <h6 class="mt-1"><%= note.author.username %></h6>
 
-    <p class="mt-4"><%= note.body %></p>
-    <div class="d-flex justify-content-end">
-      <a href="/notes/like/<%= note.id %>"><i class="far fa-thumbs-up"></i></a>
-      <h3><%= note.likes.length %></h3>
-      <% if (user.id === note.author.id) { %>
-        <a href="/notes/<%= note.id %>/edit"><i class="fas fa-user-edit ml-5"></i></a>
-      <% } %>
+      <p class="mt-4"><%= note.body %></p>
+      <div class="d-flex justify-content-end">
+        <a href="/notes/like/<%= note.id %>">
+          <i class="far fa-thumbs-up"></i>
+        </a>
+        <h3><%= note.likes.length %></h3>
+
+        
+        <a href="/notes/<%= note.id %>/clone">
+          <i class="fas fa-copy ml-5"></i>
+        </a>
+        <% if (user.id === note.author.id) { %>
+        <a href="/notes/<%= note.id %>/edit">
+          <i class="fas fa-user-edit ml-5"></i>
+        </a>
+        <% } %>
       </div>
+    </div>
   </div>
-</div>
 
-<div class="col-8 offset-2 mt-5">
-  <ul class="list-unstyled">
-    <% note.comments.forEach(comment => { %>
-    <li class="media border mb-1">
-      <% if (comment.author.avatar) { %>
+  <div class="col-8 offset-2 mt-5">
+    <ul class="list-unstyled">
+      <% note.comments.forEach(comment => { %>
+      <li class="media border mb-1">
+        <% if (comment.author.avatar) { %>
         <img
           src="data:image/png;base64,<%= comment.author.avatar.toString('base64') %>"
           height="50px"
@@ -54,8 +65,8 @@
           alt="profile img"
         />
 
-      <% } else { %>
-<img
+        <% } else { %>
+        <img
           src="/images/default-logo.png"
           height="50px"
           width="50px"
@@ -64,41 +75,42 @@
         />
         <% } %>
 
-      <div class="media-body d-flex">
-        <div class="flex-grow-1">
-          <p class="mt-1 mb-1"><u><%= comment.author.username %></u></p>
-          <%= comment.body %>
+        <div class="media-body d-flex">
+          <div class="flex-grow-1">
+            <p class="mt-1 mb-1"><u><%= comment.author.username %></u></p>
+            <%= comment.body %>
+          </div>
+          <% if (comment.author.id === user.id) { %>
+          <form
+            action="/comments/<%= comment._id %>?_method=DELETE"
+            method="POST"
+          >
+            <button type="submit" class="btn">
+              <i class="fas fa-trash"></i>
+            </button>
+          </form>
+
+          <% } %>
         </div>
-        <% if (comment.author.id === user.id) { %>
-        <form
-          action="/comments/<%= comment._id %>?_method=DELETE"
-          method="POST"
-        >
-          <button type="submit" class="btn">
-            <i class="fas fa-trash"></i>
-          </button>
-        </form>
+      </li>
 
-        <% } %>
+      <% }) %>
+    </ul>
+    <h5 class="border-bottom">Comments (<%= note.comments.length%>)</h5>
+    <form action="/comments/<%= note._id %>" method="POST">
+      <div class="form-group">
+        <label for="exampleFormControlTextarea1"></label>
+        <textarea
+          class="form-control"
+          name="body"
+          id="exampleFormControlTextarea1"
+          rows="3"
+          placeholder="Leave a comment..."
+        ></textarea>
       </div>
-    </li>
-
-    <% }) %>
-  </ul>
-  <h5 class="border-bottom">Comments (<%= note.comments.length%>)</h5>
-  <form action="/comments/<%= note._id %>" method="POST">
-    <div class="form-group">
-      <label for="exampleFormControlTextarea1"></label>
-      <textarea
-        class="form-control"
-        name="body"
-        id="exampleFormControlTextarea1"
-        rows="3"
-        placeholder="Leave a comment..."
-      ></textarea>
-    </div>
-    <button class="btn btn-primary" type="submit">Submit</button>
-  </form>
+      <button class="btn btn-primary" type="submit">Submit</button>
+    </form>
+  </div>
 </div>
 
 <% include ../partials/footer %>

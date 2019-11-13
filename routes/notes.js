@@ -10,6 +10,8 @@ router.get('/new', (req, res) => {
 
 router.get('/like/:id', noteController.like)
 
+router.get('/:id/clone', noteController.clone)
+
 router.get('/:id', noteController.show)
 
 router.post('/', noteController.create)
