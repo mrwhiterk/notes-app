@@ -235,14 +235,11 @@
                   <a href="/notes/<%= note.id %>/edit">
                     <i class="fas fa-user-edit ml-3"></i>
                   </a>
-                  <form
-                    action="/notes/<%= note._id %>?_method=DELETE"
-                    method="POST"
-                  >
-                    <button type="submit" class="btn btn-primary-outline">
-                      <i class="fas fa-trash"></i>
+                  <button type="submit" class="btn btn-primary-outline deleteNote">
+                    <i class="fas fa-trash"></i>
                     </button>
-                  </form>
+                    <input id="noteID" type="hidden" value="<%= note.id %>" />
+                  
                 </div>
               </li>
 
@@ -257,3 +254,4 @@
 
 <% include ./partials/footer %>
 <script src="/javascripts/avatarUpload.js"></script>
+<script src="/javascripts/profile.js"></script>

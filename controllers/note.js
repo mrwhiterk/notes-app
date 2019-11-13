@@ -168,6 +168,7 @@ module.exports = {
       console.log(err)
       req.flash('errors', err.message)
     }
-    res.redirect('back')
+    console.log(req.user)
+    res.redirect(200, 'back')
   }
 }
