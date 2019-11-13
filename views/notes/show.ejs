@@ -1,7 +1,7 @@
 <% include ../partials/header %> <% include ../partials/nav %>
 
   <% errors.forEach( error => { %>
-  <div class="alert alert-danger alert-dismissible fade show mt-5" role="alert">
+  <div class="alert alert-danger alert-dismissible fade show mt-2" role="alert">
     <%= error.message || error %>
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
       <span aria-hidden="true">&times;</span>
@@ -9,14 +9,14 @@
   </div>
   <% }) %>
   <% success.forEach( message => { %>
-  <div class="alert alert-primary alert-dismissible fade show mt-5" role="alert">
+  <div class="alert alert-primary alert-dismissible fade show mt-2" role="alert">
     <%= message %>
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
   <% }) %>
-<div class="media mt-5">
+<div class="media mt-5" id="note-section">
   
   <% if (note.author.avatar) { %>
   <img
@@ -32,11 +32,13 @@
     <h6 class="mt-1"><%= note.author.username %></h6>
 
     <p class="mt-4"><%= note.body %></p>
-    <a href="/notes/like/<%= note.id %>"><i class="far fa-thumbs-up"></i></a>
-    <%= note.likes.length %>
-    <% if (user.id === note.author.id) { %>
-      <a href="/notes/<%= note.id %>/edit"><i class="fas fa-user-edit"></i></a>
-    <% } %>
+    <div class="d-flex justify-content-end">
+      <a href="/notes/like/<%= note.id %>"><i class="far fa-thumbs-up"></i></a>
+      <h3><%= note.likes.length %></h3>
+      <% if (user.id === note.author.id) { %>
+        <a href="/notes/<%= note.id %>/edit"><i class="fas fa-user-edit ml-5"></i></a>
+      <% } %>
+      </div>
   </div>
 </div>
 

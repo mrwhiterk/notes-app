@@ -33,8 +33,13 @@ a {
   font-size: 2.5em;
 }
 
-.fa-user-edit {
+#note-section .fa-user-edit {
   font-size: 2.5em;
+  color: black
+}
+
+#profile-section .fa-user-edit {
+  font-size: 1.3em;
   color: black
 }
 

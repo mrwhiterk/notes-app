@@ -1,7 +1,7 @@
 <% include ./partials/header %> <% include ./partials/nav %>
 
 <main>
-  <div class="container emp-profile">
+  <div class="container emp-profile" id="profile-section">
     <% errors.forEach( error => { %>
     <div
       class="alert alert-danger alert-dismissible fade show mt-2"
@@ -221,13 +221,26 @@
           >
             <ul class="list-group">
               <% user.notes.forEach(note => { %>
-              <li class="list-group-item d-flex justify-content-between p-0 align-items-center">
-                <a class="pl-2" href="/notes/<%= note._id %>"><%= note.title %></a>
-                <form action="/notes/<%= note._id %>?_method=DELETE" method="POST">
-                  <button type="submit" class="btn btn-primary-outline">
-                    <i class="fas fa-trash"></i>
-                  </button>
-                </form>
+              <li
+                class="list-group-item d-flex justify-content-between p-0 align-items-center"
+              >
+                <a class="pl-2" href="/notes/<%= note._id %>">
+                  <%= note.title %>
+                </a>
+                <div class="d-flex justify-content-end align-items-center">
+                  <a href="/notes/<%= note.id %>/edit">
+                    <i class="fas fa-user-edit ml-2"></i>
+                  </a>
+                  <form
+                    action="/notes/<%= note._id %>?_method=DELETE"
+                    method="POST"
+                  >
+                    <button type="submit" class="btn btn-primary-outline">
+                      <i class="fas fa-trash"></i>
+                    </button>
+                  </form>
+  
+                  </div>
               </li>
 
               <% }) %>
