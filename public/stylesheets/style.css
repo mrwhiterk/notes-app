@@ -48,6 +48,11 @@ a {
   color: black
 }
 
+#profile-section .fa-copy {
+  font-size: 1.3em;
+  color: black
+}
+
 /* profile section */
 .profile-img {
   display: flex;

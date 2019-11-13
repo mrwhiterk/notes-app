@@ -227,9 +227,13 @@
                 <a class="pl-2" href="/notes/<%= note._id %>">
                   <%= note.title %>
                 </a>
+
                 <div class="d-flex justify-content-end align-items-center">
+                  <a href="/notes/<%= note.id %>/clone">
+                    <i class="fas fa-copy ml-5"></i>
+                  </a>
                   <a href="/notes/<%= note.id %>/edit">
-                    <i class="fas fa-user-edit ml-2"></i>
+                    <i class="fas fa-user-edit ml-3"></i>
                   </a>
                   <form
                     action="/notes/<%= note._id %>?_method=DELETE"
@@ -239,8 +243,7 @@
                       <i class="fas fa-trash"></i>
                     </button>
                   </form>
-  
-                  </div>
+                </div>
               </li>
 
               <% }) %>
