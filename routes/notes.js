@@ -14,6 +14,9 @@ router.get('/:id', noteController.show)
 
 router.post('/', noteController.create)
 
+router.get('/:id/edit', noteController.edit)
+router.put('/:id', noteController.update)
+
 router.delete('/:id', noteController.deleteNote)
 
 module.exports = router

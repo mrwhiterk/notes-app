@@ -37,7 +37,7 @@
     <div class="row">
       <div class="col-md-4 d-flex flex-column align-items-center">
         <div>
-          <button class="text-center mt-5 btn btn-dark" id="showUpload">
+          <button class="text-center mt-4 btn btn-dark" id="showUpload">
             Upload Profile Picture
             <i class="fas fa-chevron-up"></i>
           </button>
@@ -112,17 +112,16 @@
             src="data:image/png;base64,<%= user.avatar.toString('base64') %>"
           />
 
-          
-            <form
-              class="align-self-end mr-5"
-              action="/users/deleteAvatar?_method=DELETE"
-              method="POST"
-            >
-              <button type="submit" class="btn btn-primary-outline">
-                <i class="fas fa-trash"></i>
-              </button>
-            </form>
-          
+          <form
+            class="align-self-end mr-5"
+            action="/users/deleteAvatar?_method=DELETE"
+            method="POST"
+          >
+            <button type="submit" class="btn btn-primary-outline">
+              <i class="fas fa-trash"></i>
+            </button>
+          </form>
+
           <% } else { %>
           <img class="img-thumbnail" src="/images/default-logo.png" />
           <% } %>
@@ -222,8 +221,13 @@
           >
             <ul class="list-group">
               <% user.notes.forEach(note => { %>
-              <li class="list-group-item">
-                <a href="/notes/<%= note._id %>"><%= note.title %></a>
+              <li class="list-group-item d-flex justify-content-between p-0 align-items-center">
+                <a class="pl-2" href="/notes/<%= note._id %>"><%= note.title %></a>
+                <form action="/notes/<%= note._id %>?_method=DELETE" method="POST">
+                  <button type="submit" class="btn btn-primary-outline">
+                    <i class="fas fa-trash"></i>
+                  </button>
+                </form>
               </li>
 
               <% }) %>

@@ -76,6 +76,40 @@ module.exports = {
     res.redirect('back')
   },
 
+  edit: async (req, res) => {
+    const note = await Note.findById(req.params.id)
+    res.render('notes/editForm', { note })
+  },
+
+  update: async (req, res) => {
+    console.log(req.body)
+    const updates = Object.keys(req.body)
+    const allowedUpdates = ['title', 'category', 'body']
+    const isValidOperation = updates.every(item =>
+      allowedUpdates.includes(item)
+    )
+
+    if (!isValidOperation) {
+      req.flash('errors', 'invalid request')
+      return res.redirect('back')
+    }
+
+    try {
+      const note = await Note.findById(req.params.id)
+
+      updates.forEach(update => {
+        note[update] = req.body[update]
+      })
+
+      await note.save()
+      req.flash('success', 'successfully updated note')
+      res.redirect(`/notes/${note._id}`)
+    } catch (error) {
+      req.flash('errors', error.errmsg)
+      res.redirect('back')
+    }
+  },
+
   deleteNote: async (req, res) => {
     try {
       await Note.findByIdAndDelete(req.params.id)
