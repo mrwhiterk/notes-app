@@ -49,8 +49,7 @@ module.exports = {
           await note.populate('comments').execPopulate()
 
           res.render('notes/show', {
-            note,
-            avatar: note.author.avatar.toString('base64')
+            note
           })
         })
     } catch (err) {

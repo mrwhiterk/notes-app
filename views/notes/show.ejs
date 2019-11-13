@@ -1,9 +1,9 @@
 <% include ../partials/header %> <% include ../partials/nav %>
 
 <div class="media mt-2">
-  <% if (avatar) { %>
+  <% if (user.avatar) { %>
   <img
-    src="data:image/png;base64,<%= avatar %>"
+    src="data:image/png;base64,<%= user.avatar.toString('base64') %>"
     class="align-self-start mr-3"
     height="100px"
   />
