@@ -13,6 +13,8 @@ const commentsRouter = require('./routes/comments')
 
 require('./db/connection')
 
+console.log(process.env.MONGO_URI)
+
 const app = express()
 const methodOverride = require('method-override')
 
