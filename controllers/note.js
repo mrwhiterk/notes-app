@@ -77,7 +77,6 @@ module.exports = {
   },
 
   clone: async (req, res) => {
-    console.log(req.params.id)
     try {
       const note = await Note.findById(req.params.id)
         .populate('author')
@@ -86,7 +85,23 @@ module.exports = {
       const OriginalAuthor = note.author.username
 
       const newNote = new Note()
-      newNote.title = note.title + `(forked from ${OriginalAuthor}/${note.title})`
+
+      if (note.title.includes('(forked')) {
+        let lastIdx = note.title.length - 1
+
+        if (Number.isInteger(+note.title[lastIdx])) {
+          const array = note.title.split('')
+          array[lastIdx] = (+note.title[lastIdx] + 1).toString()
+          newNote.title = array.join('')
+        } else {
+          newNote.title = note.title + ' copy-1'
+        }
+      } else {
+        newNote.title =
+          note.title.split('(')[0] +
+          `(forked from ${OriginalAuthor}/${note.title})`
+      }
+
       newNote.body = note.body
       newNote.author = req.user._id
 
@@ -95,7 +110,9 @@ module.exports = {
       req.flash('success', 'successfully forked')
       res.redirect(`/notes/${newNote._id}`)
     } catch (error) {
+      console.log(error)
       req.flash('errors', error.errmsg)
+
       res.redirect('back')
     }
   },
@@ -119,21 +136,19 @@ module.exports = {
 
     try {
       const note = await Note.findById(req.params.id)
-      let fork
+      let pattern;
       if (note.title.includes('(forked from')) {
-        fork = ' (' + note.title.split(/\(/g)[1]
+        pattern = note.title.match(/\(.*\)/ig)
       }
 
-      console.log(fork)
-
       updates.forEach(update => {
-        if (update === 'title' && fork) {
-          note[update] = req.body[update].split(/\(/g)[0] + fork
+        if (update === 'title' && pattern) {
+          note[update] = req.body[update].split(/\(/g)[0] + pattern[0]
+          console.log(pattern[0])
         } else {
           note[update] = req.body[update]
         }
       })
-      console.log(note['title'])
 
       await note.save()
       req.flash('success', 'successfully updated note')
