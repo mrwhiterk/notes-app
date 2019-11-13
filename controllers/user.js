@@ -1,7 +1,6 @@
 const User = require('../models/user')
 const passport = require('passport')
 const bcrypt = require('bcryptjs')
-const multer = require('multer')
 const sharp = require('sharp')
 
 module.exports = {
@@ -54,6 +53,7 @@ module.exports = {
     next()
   },
   show: async (req, res) => {
+    await req.user.populate('notes').execPopulate()
     res.render('profile')
   },
 
@@ -156,7 +156,7 @@ module.exports = {
 
   catchAvatarErrors: async (error, req, res) => {
     if (error) {
-      console.log(error)
+      req.flash('errors', error)
     }
     req.flash('errors', 'please upload a jpg, jpeg, or png file')
     res.redirect('back')
