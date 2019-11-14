@@ -3,9 +3,17 @@ var router = express.Router()
 const userController = require('../controllers/user')
 const upload = require('../utils/multer')
 
+router.get('/', (req, res) => {
+  res.render('users/members')
+})
+
 router.post('/', userController.create)
 
-router.get('/profile', userController.redirectIfNotAuthenticated, userController.show)
+router.get(
+  '/profile',
+  userController.redirectIfNotAuthenticated,
+  userController.show
+)
 
 router.get('/bookmark/:noteId', userController.bookmark)
 

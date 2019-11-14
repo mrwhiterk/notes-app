@@ -30,27 +30,31 @@ a {
 }
 
 .fa-thumbs-up {
-  font-size: 2.5em;
+  font-size: 1.5em;
 }
 
 #note-section .fa-user-edit {
-  font-size: 2.5em;
-  color: black
+  font-size: 1.5em;
+  color: black;
 }
 
 #note-section .fa-copy {
-  font-size: 2.5em;
+  font-size: 1.5em;
   color: black;
 }
 
 #profile-section .fa-user-edit {
   font-size: 1.3em;
-  color: black
+  color: black;
+}
+
+#profile-section a {
+  color: black;
 }
 
 #profile-section .fa-copy {
   font-size: 1.3em;
-  color: black
+  color: black;
 }
 
 /* profile section */
@@ -74,4 +78,18 @@ a {
 
 .fa-file-upload {
   font-size: 2.2em;
+}
+
+/* notes index section */
+
+#notes-index-section i {
+  color: black;
+}
+
+#notes-index-section a {
+  color: black;
+}
+
+i#likeComment {
+  font-size: 1.5em;
 }

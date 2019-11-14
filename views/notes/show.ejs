@@ -30,26 +30,25 @@
     <img src="/images/default-logo.png" class="align-self-start mr-3 border" />
     <% } %>
     <div class="media-body">
-      <h5 class="mt-0"><%= note.title %></h5>
-      <h6 class="mt-1"><%= note.author.username %></h6>
-
-      <p class="mt-4"><%= note.body %></p>
       <div class="d-flex justify-content-end">
         <a href="/notes/like/<%= note.id %>">
           <i class="far fa-thumbs-up"></i>
         </a>
-        <h3><%= note.likes.length %></h3>
-
+        <div><%= note.likes.length %></div>
+          <a  class="ml-3" href="/notes/<%= note.id %>/clone">
+            <i class="fas fa-copy"></i>
+          </a>
         
-        <a href="/notes/<%= note.id %>/clone">
-          <i class="fas fa-copy ml-5"></i>
-        </a>
         <% if (user.id === note.author.id) { %>
         <a href="/notes/<%= note.id %>/edit">
           <i class="fas fa-user-edit ml-5"></i>
         </a>
         <% } %>
       </div>
+      <h5 class="mt-0"><%= note.title %></h5>
+      <h6 class="mt-1"><%= note.author.username %></h6>
+
+      <p class="mt-4"><%= note.body %></p>
     </div>
   </div>
 
@@ -75,11 +74,15 @@
         />
         <% } %>
 
-        <div class="media-body d-flex">
+        <div class="media-body d-flex align-items-center">
           <div class="flex-grow-1">
             <p class="mt-1 mb-1"><u><%= comment.author.username %></u></p>
             <%= comment.body %>
           </div>
+          <a href="/comments/like/<%= comment.id %>">
+            <i id="likeComment" class="far fa-thumbs-up"></i>
+          </a>
+          <div><%= comment.likes.length %></div>
           <% if (comment.author.id === user.id) { %>
           <form
             action="/comments/<%= comment._id %>?_method=DELETE"
