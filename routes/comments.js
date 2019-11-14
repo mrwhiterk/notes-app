@@ -4,6 +4,8 @@ const commentController = require('../controllers/comment')
 
 router.post('/:id', commentController.create)
 
+router.post('/addSubComment/:id', commentController.addSubComment)
+
 router.get('/like/:id', commentController.like)
 
 router.delete('/:id', commentController.delete)

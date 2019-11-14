@@ -1,8 +1,9 @@
 const Note = require('../models/note')
+const async = require('async')
+const User = require('../models/user')
 
 module.exports = {
   index: async (req, res, next) => {
- 
     try {
       await Note.find({
         title: { $regex: new RegExp(req.query.title || ''), $options: 'i' }
@@ -50,6 +51,34 @@ module.exports = {
           if (err) throw err
 
           await note.populate('comments').execPopulate()
+
+          note.comments.forEach(comment =>
+            comment.comments.forEach(y => console.log(y))
+          )
+          // note.comments.populate('comments').exec(function(err, data) {
+          //   if (err) return err
+          //   console.log(data)
+
+          //   async.forEach(
+          //     data,
+          //     function (item, callback) {
+          //       User.populate(item.comments, { path: 'author' }, function (
+          //         err,
+          //         output
+          //       ) {
+          //         if (err) throw err
+
+          //         callback()
+          //       })
+          //     },
+          //     function (err) {
+          //       if (err) throw err
+          //       console.log(data)
+          //     }
+          //   )
+          // })
+
+          // console.log(note.comments[0].comments)
 
           res.render('notes/show', {
             note
@@ -139,9 +168,9 @@ module.exports = {
 
     try {
       const note = await Note.findById(req.params.id)
-      let pattern;
+      let pattern
       if (note.title.includes('(forked from')) {
-        pattern = note.title.match(/\(.*\)/ig)
+        pattern = note.title.match(/\(.*\)/gi)
       }
 
       updates.forEach(update => {

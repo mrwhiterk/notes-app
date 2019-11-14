@@ -35,6 +35,24 @@ module.exports = {
       res.redirect('back')
     }
   },
+  addSubComment: async (req, res) => {
+    try {
+      const comment = await Comment.findById(req.params.id)
+      const { body } = req.body
+      const subComment = {
+        body,
+        author: req.user._id
+      }
+      comment.comments.push(subComment)
+
+      await comment.save()
+      res.redirect('back')
+    } catch (error) {
+      console.log(error)
+      req.flash('errors', error)
+      res.redirect('back')
+    }
+  },
   delete: async (req, res) => {
     try {
       await Comment.findByIdAndDelete(req.params.id)

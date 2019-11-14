@@ -21,7 +21,27 @@ const commentSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       required: true,
       ref: 'Note'
-    }
+    },
+
+    comments: [
+      {
+        body: {
+          type: String,
+          required: true
+        },
+        author: {
+          type: mongoose.Schema.Types.ObjectId,
+          required: true,
+          ref: 'User'
+        },
+        likes: [
+          {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User'
+          }
+        ]
+      }
+    ]
   },
   {
     timestamps: true
@@ -30,6 +50,7 @@ const commentSchema = new mongoose.Schema(
 
 commentSchema.pre('find', function () {
   this.populate('author')
+  this.populate('comments.author')
 })
 
 module.exports = mongoose.model('Comment', commentSchema)
