@@ -116,7 +116,7 @@
               <%= subComment.body %>
               </div>
             <div class="p-2">
-              <a href="/comments/like/<%= subComment.id %>">
+              <a href="/comments/subComments/like/<%= subComment.id %>/<%= comment.id %>">
                 <i id="likeComment" class="far fa-thumbs-up"></i>
               </a>
               <%= subComment.likes.length %>

@@ -10,6 +10,8 @@ router.delete('/subComments/:commentId', commentController.deleteSubComment)
 
 router.get('/like/:id', commentController.like)
 
+router.get('/subComments/like/:id/:commentId', commentController.likeSubComment)
+
 router.delete('/:id', commentController.delete)
 
 module.exports = router

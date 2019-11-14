@@ -35,6 +35,29 @@ module.exports = {
       res.redirect('back')
     }
   },
+  likeSubComment: async (req, res) => {
+    try {
+      const comment = await Comment.findById(req.params.commentId)
+
+      const subComment = await comment.comments.id(req.params.id)
+
+      if (subComment.likes.includes(req.user.id)) {
+        subComment.likes = subComment.likes.filter(
+          id => id.toString() !== req.user.id
+        )
+      } else {
+        subComment.likes.push(req.user.id)
+      }
+
+      await comment.save()
+
+      res.redirect('back')
+    } catch (error) {
+      res.redirect('errors', error)
+      res.redirect('back')
+    }
+  },
+
   addSubComment: async (req, res) => {
     try {
       const comment = await Comment.findById(req.params.id)
