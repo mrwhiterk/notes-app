@@ -52,33 +52,7 @@ module.exports = {
 
           await note.populate('comments').execPopulate()
 
-          note.comments.forEach(comment =>
-            comment.comments.forEach(y => console.log(y))
-          )
-          // note.comments.populate('comments').exec(function(err, data) {
-          //   if (err) return err
-          //   console.log(data)
-
-          //   async.forEach(
-          //     data,
-          //     function (item, callback) {
-          //       User.populate(item.comments, { path: 'author' }, function (
-          //         err,
-          //         output
-          //       ) {
-          //         if (err) throw err
-
-          //         callback()
-          //       })
-          //     },
-          //     function (err) {
-          //       if (err) throw err
-          //       console.log(data)
-          //     }
-          //   )
-          // })
-
-          // console.log(note.comments[0].comments)
+          console.log(note.comments[0])
 
           res.render('notes/show', {
             note

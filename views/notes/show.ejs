@@ -29,7 +29,7 @@
     <% } else { %>
     <img src="/images/default-logo.png" class="align-self-start mr-3 border" />
     <% } %>
-    <div class="media-body border p-2">
+    <div class="media-body border rounded p-2">
       <div class="d-flex justify-content-end">
         <a href="/notes/like/<%= note.id %>">
           <i class="far fa-thumbs-up"></i>
@@ -54,8 +54,10 @@
 
   <div class="col-8 offset-2 mt-5">
     <ul class="list-unstyled">
+      <h5 class="border-bottom">Comments (<%= note.comments.length%>)</h5>
+
       <% note.comments.forEach(comment => { %>
-      <li class="media border mb-1 d-flex flex-column p-2">
+      <li class="media border rounded mb-1 d-flex flex-column p-2">
         <div class="d-flex w-100">
           <% if (comment.author.avatar) { %>
           <img
@@ -99,38 +101,61 @@
             <% } %>
           </div>
         </div>
-        <% comment.comments.forEach(comment => { %>
-          <div class="media mt-3 w-75 mb-0 align-self-center">
-            <a class="pr-3" href="#">
-              <img
-                src="data:image/png;base64,<%= comment.author.avatar.toString('base64') %>"
-                alt="Generic placeholder image"
-                height="50px"
-              />
-            </a>
-            <div class="media-body">
-              <p class="mt-0 mb-0"><u><%= comment.author.username %></u></p>
-              <%= comment.body %>
+        <% comment.comments.forEach(subComment => { %>
+        <div class="media mt-3 w-75 mb-0 align-self-center rounded">
+          <a class="pr-3" href="#">
+            <img
+              src="data:image/png;base64,<%= subComment.author.avatar.toString('base64') %>"
+              alt="Generic placeholder image"
+              height="50px"
+            />
+          </a>
+          <div class="media-body d-flex">
+            <div class="flex-grow-1">
+              <p class="mt-0 mb-0"><u><%= subComment.author.username %></u></p>
+              <%= subComment.body %>
+              </div>
+            <div class="p-2">
+              <a href="/comments/like/<%= subComment.id %>">
+                <i id="likeComment" class="far fa-thumbs-up"></i>
+              </a>
+              <%= subComment.likes.length %>
             </div>
-            </div>
+            <% if (subComment.author.id === user.id) { %>
+            <form
+              action="/comments/subComments/<%= comment._id %>?_method=DELETE"
+              method="POST"
+            >
+              <input type="hidden" name="subCommentId" value="<%= subComment._id %>">
+              <button type="submit" class="btn">
+                <i class="fas fa-trash"></i>
+              </button>
+            </form>
+
+            <% } %>
+          </div>
+        </div>
 
         <% }) %>
-          <form class="w-75 align-self-center mt-0" action="/comments/addSubComment/<%= comment._id %>" method="POST">
-            <div class="form-group">
-              <label for="exampleFormControlInput"></label>
-              <input
-                class="form-control"
-                name="body"
-                id="exampleFormControlInput"
-                placeholder="reply.."
-              />
-            </div>
-          </form>
+        <form
+          class="w-75 align-self-center mt-0"
+          action="/comments/addSubComment/<%= comment._id %>"
+          method="POST"
+        >
+          <div class="form-group">
+            <label for="exampleFormControlInput"></label>
+            <input
+              class="form-control"
+              name="body"
+              id="exampleFormControlInput"
+              placeholder="reply.."
+            />
+          </div>
+        </form>
       </li>
 
       <% }) %>
     </ul>
-    <h5 class="border-bottom">Comments (<%= note.comments.length%>)</h5>
     <form action="/comments/<%= note._id %>" method="POST">
       <div class="form-group">
         <label for="exampleFormControlTextarea1"></label>

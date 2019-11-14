@@ -53,6 +53,25 @@ module.exports = {
       res.redirect('back')
     }
   },
+  deleteSubComment: async (req, res) => {
+    try {
+      const comment = await Comment.findById(req.params.commentId)
+
+      comment.comments = comment.comments.filter(
+        comment => comment.id.toString() !== req.body.subCommentId
+      )
+
+      await comment.save()
+
+      req.flash('success', 'successfully removed reply')
+
+      res.redirect('back')
+    } catch (error) {
+      console.log(error)
+      req.flash('errors', error)
+      res.redirect('back')
+    }
+  },
   delete: async (req, res) => {
     try {
       await Comment.findByIdAndDelete(req.params.id)
