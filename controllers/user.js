@@ -4,6 +4,13 @@ const bcrypt = require('bcryptjs')
 const sharp = require('sharp')
 
 module.exports = {
+  index: async (req, res) => {
+    const users = await User.find()
+
+    console.log(users[0].notes)
+
+    res.render('users/members', { users })
+  },
   create: async (req, res) => {
     try {
       const { username, email, password, password2 } = req.body

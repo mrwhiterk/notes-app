@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
 const validator = require('validator')
 const bcrypt = require('bcryptjs')
+const Note = require('../models/note')
 
 const userSchema = new mongoose.Schema(
   {
@@ -41,7 +42,11 @@ const userSchema = new mongoose.Schema(
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Note'
       }
-    ]
+    ],
+    likes: {
+      type: Number,
+      default: 0
+    }
   },
   {
     timestamps: true
@@ -52,6 +57,17 @@ userSchema.virtual('notes', {
   ref: 'Note',
   localField: '_id',
   foreignField: 'author'
+})
+
+userSchema.methods.getLikes = function() {
+  let totalLikes = 0
+  this.notes.forEach(note => (totalLikes += note.likes.length))
+
+  return totalLikes
+}
+
+userSchema.pre('find', function() {
+  this.populate('notes')
 })
 
 userSchema.pre('save', async function(next) {

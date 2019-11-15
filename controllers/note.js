@@ -52,8 +52,6 @@ module.exports = {
 
           await note.populate('comments').execPopulate()
 
-          console.log(note.comments[0])
-
           res.render('notes/show', {
             note
           })

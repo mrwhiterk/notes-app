@@ -3,9 +3,7 @@ var router = express.Router()
 const userController = require('../controllers/user')
 const upload = require('../utils/multer')
 
-router.get('/', (req, res) => {
-  res.render('users/members')
-})
+router.get('/', userController.index)
 
 router.post('/', userController.create)
 
