@@ -41,21 +41,21 @@
       </select>
     </div>
 
-    <div class="form-group">
-      <label for="noteTextarea1">Body</label>
-      <textarea
-        name="body"
-        class="form-control"
-        id="noteTextarea1"
-        rows="15"
-        required
-      >
-<%= note.body %></textarea
-      >
-    </div>
+    <textarea id="summernote" name="body"><%= note.body %></textarea>
 
     <button class="btn btn-lg btn-dark" type="submit">Update Note</button>
   </form>
 </div>
 
 <% include ../partials/footer %>
+<script>
+  $(document).ready(function() {
+    $('#summernote').summernote({
+      placeholder: 'Enter your note..',
+      tabsize: 4,
+      height: 400
+    })
+    
+    $('.popover-content').hide()
+  })
+</script>

@@ -128,7 +128,7 @@ module.exports = {
 
   update: async (req, res) => {
     const updates = Object.keys(req.body)
-    const allowedUpdates = ['title', 'category', 'body']
+    const allowedUpdates = ['title', 'category', 'body', 'files']
     const isValidOperation = updates.every(item =>
       allowedUpdates.includes(item)
     )
