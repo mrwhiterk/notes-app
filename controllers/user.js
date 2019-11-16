@@ -7,9 +7,15 @@ module.exports = {
   index: async (req, res) => {
     const users = await User.find()
 
-    console.log(users[0].notes)
-
     res.render('users/members', { users })
+  },
+  getPublicProfile: async (req, res) => {
+    const user = await User.findById(req.params.id)
+
+    await user.populate('notes').execPopulate()
+    await user.populate('bookmarks').execPopulate()
+
+    res.render('publicProfile', { user })
   },
   create: async (req, res) => {
     try {

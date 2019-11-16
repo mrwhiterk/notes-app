@@ -94,4 +94,8 @@ i#likeComment {
   font-size: 1.5em;
 }
 
-/* footer */
+/* member section */
+
+#members-section a {
+  color: black;
+}

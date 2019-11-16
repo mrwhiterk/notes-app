@@ -13,6 +13,8 @@ router.get(
   userController.show
 )
 
+router.get('/publicProfile/:id', userController.getPublicProfile)
+
 router.get('/bookmark/:noteId', userController.bookmark)
 
 router.get('/removeBookmark/:noteId', userController.removeBookmark)

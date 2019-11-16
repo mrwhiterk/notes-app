@@ -1,5 +1,5 @@
 <% include ../partials/header %> <% include ../partials/nav %>
-<main class="container mt-5">
+<main class="container mt-5" id="members-section">
   <h5>Members</h5>
   <ul class="list-group">
     <% users.forEach(user => { %>
@@ -13,7 +13,7 @@
           alt="profile-img"
           class="mr-5"
         />
-        <span><%= user.username %></span>
+        <span><a href="/users/publicProfile/<%= user._id %>"><%= user.username %></a></span>
       </div>
       <span class="badge badge-primary badge-pill">
         <%= user.getLikes() %>
