@@ -74,7 +74,6 @@ module.exports = {
       }
       await note.save()
     } catch (err) {
-      console.log(err)
       req.flash('errors', err)
     }
     res.redirect('back')
@@ -173,6 +172,6 @@ module.exports = {
       req.flash('errors', err.message)
     }
     console.log(req.user)
-    res.redirect(200, 'back')
+    res.redirect('back')
   }
 }
