@@ -2,6 +2,7 @@ const User = require('../models/user')
 const passport = require('passport')
 const bcrypt = require('bcryptjs')
 const sharp = require('sharp')
+const { sendCancellationEmail, sendWelcomeEmail } = require('../emails/account')
 
 module.exports = {
   index: async (req, res) => {
@@ -28,7 +29,7 @@ module.exports = {
       const user = await User.findOne({ email })
       if (user) {
         req.flash('errors', 'email already taken')
-        return res.redirect(301, '/signup')
+        return res.redirect('/signup')
       }
 
       const userName = await User.findOne({ username })
@@ -43,7 +44,13 @@ module.exports = {
         password
       })
 
-      await me.save()
+      try {
+        await me.save()
+
+        sendWelcomeEmail(email, username)
+      } catch (e) {
+        console.log(e)
+      }
 
       req.login(me, err => {
         if (err) {
@@ -228,6 +235,18 @@ module.exports = {
       res.redirect('back')
     } catch (err) {
       req.flash('errors', err)
+      res.redirect('back')
+    }
+  },
+
+  delete: async (req, res) => {
+    try {
+      req.user.remove()
+      sendCancellationEmail(req.user.email, req.user.username)
+      res.redirect('/')
+    } catch (error) {
+      console.log(error)
+      req.flash('errors', error)
       res.redirect('back')
     }
   }
