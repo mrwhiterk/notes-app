@@ -1,6 +1,7 @@
 const Note = require('../models/note')
 const async = require('async')
 const User = require('../models/user')
+const Comment = require('../models/comment')
 
 module.exports = {
   index: async (req, res, next) => {
@@ -166,12 +167,12 @@ module.exports = {
   deleteNote: async (req, res) => {
     try {
       await Note.findByIdAndDelete(req.params.id)
+
       req.flash('success', 'note deleted')
     } catch (err) {
-      console.log(err)
       req.flash('errors', err.message)
     }
-    console.log(req.user)
+
     res.redirect('back')
   }
 }

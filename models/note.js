@@ -41,4 +41,11 @@ noteSchema.virtual('comments', {
   foreignField: 'note'
 })
 
+noteSchema.pre('remove', async function (next) {
+  const note = this
+  await Comment.deleteMany({ note: note._id })
+
+  next()
+})
+
 module.exports = mongoose.model('Note', noteSchema)
