@@ -1,5 +1,24 @@
 <% include ../partials/header %> <% include ../partials/nav %>
 <main class="container">
+  <div class="jumbotron">
+    <h1 class="display-4">NoteHub</h1>
+    <p class="lead">
+      Crowd-sourced notes for everyone
+    </p>
+    <hr class="my-4" />
+    <p>
+      Are your college notes collecting dust in a closet somewhere?
+    </p>
+    <p>
+      Lets share and compare!
+    </p>
+
+    <div class="d-flex justify-content-end align-items-center">
+      <caption>Don't have an account yet?</caption>
+      <a class="btn btn-dark btn-lg ml-3" href="/signup" role="button">Signup</a>
+    </div>
+  </div>
+  <h1 class="display-8"><u>Login</u></h1>
   <form id="signinForm" action="/signin" method="POST">
     <% errors.forEach( error => { %>
     <div class="alert alert-danger alert-dismissible fade show" role="alert">
