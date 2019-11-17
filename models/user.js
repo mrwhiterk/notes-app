@@ -1,7 +1,8 @@
 const mongoose = require('mongoose')
 const validator = require('validator')
 const bcrypt = require('bcryptjs')
-const Note = require('../models/note')
+const Note = require('./note')
+const Comment = require('./comment')
 
 const userSchema = new mongoose.Schema(
   {
@@ -93,6 +94,23 @@ userSchema.statics.findByCredentials = async (email, password) => {
 
   return user
 }
+
+userSchema.pre('remove', async function(next) {
+  const user = this
+
+  await Note.deleteMany({ author: user._id })
+  await Comment.deleteMany({ author: user._id })
+  await Comment.updateMany(
+    {},
+    {
+      $pull: {
+        comments: { author: user._id }
+      }
+    }
+  )
+
+  next()
+})
 
 const User = mongoose.model('User', userSchema)
 

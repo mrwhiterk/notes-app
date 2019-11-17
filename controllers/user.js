@@ -243,9 +243,8 @@ module.exports = {
     try {
       req.user.remove()
       sendCancellationEmail(req.user.email, req.user.username)
-      res.redirect('/')
+      res.redirect('/signup')
     } catch (error) {
-      console.log(error)
       req.flash('errors', error)
       res.redirect('back')
     }
