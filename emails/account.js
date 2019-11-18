@@ -5,7 +5,7 @@ sgMail.setApiKey(process.env.SENDGRID_API_KEY)
 const sendWelcomeEmail = (email, username) => {
   sgMail.send({
     to: email,
-    from: 'mrwhiterk@gmail',
+    from: 'mrwhiterk@gmail.com',
     subject: 'Thanks for joining NoteHub',
     text: `Welcome to the app, ${username}! Here at NoteHub, we see no point in letting all the detailed notes you made in your studies collect dust in a folder somewhere. Lets share, iterate, and keep learning. After you've checked it out, let us know what you think`
   })
