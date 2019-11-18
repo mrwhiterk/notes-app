@@ -17,7 +17,6 @@ module.exports = {
     }
   },
   create: async (req, res) => {
-    console.log(req.body)
 
     try {
       const { title, body } = req.body
@@ -170,6 +169,6 @@ module.exports = {
       req.flash('errors', err.message)
     }
 
-    res.redirect('/tim')
+    res.redirect('back')
   }
 }
