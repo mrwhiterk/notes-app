@@ -1,7 +1,4 @@
 const Note = require('../models/note')
-const async = require('async')
-const User = require('../models/user')
-const Comment = require('../models/comment')
 
 module.exports = {
   index: async (req, res, next) => {
@@ -35,7 +32,7 @@ module.exports = {
       req.flash('success', 'successfully created note')
       res.redirect('/notes')
     } catch (err) {
-      if (err.code == 11000) {
+      if (err.code === 11000) {
         req.flash('errors', 'Title is already taken')
       } else {
         req.flash('errors', err.errmsg)
@@ -91,7 +88,7 @@ module.exports = {
       const newNote = new Note()
 
       if (note.title.includes('(forked')) {
-        let lastIdx = note.title.length - 1
+        const lastIdx = note.title.length - 1
 
         if (Number.isInteger(+note.title[lastIdx])) {
           const array = note.title.split('')
@@ -173,6 +170,6 @@ module.exports = {
       req.flash('errors', err.message)
     }
 
-    res.redirect('back')
+    res.redirect('/tim')
   }
 }
