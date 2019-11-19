@@ -17,7 +17,6 @@ module.exports = {
     }
   },
   create: async (req, res) => {
-
     try {
       const { title, body } = req.body
 
@@ -76,33 +75,29 @@ module.exports = {
     res.redirect('back')
   },
 
+  showCloneForm: async (req, res) => {
+    const note = await Note.findById(req.params.id)
+      .populate('author')
+      .exec()
+
+    res.render('notes/cloneForm', { note })
+  },
+
   clone: async (req, res) => {
     try {
       const note = await Note.findById(req.params.id)
         .populate('author')
         .exec()
 
-      const OriginalAuthor = note.author.username
-
       const newNote = new Note()
 
-      if (note.title.includes('(forked')) {
-        const lastIdx = note.title.length - 1
+      const origTitle = note.title.match(/[^/]+\)/)
 
-        if (Number.isInteger(+note.title[lastIdx])) {
-          const array = note.title.split('')
-          array[lastIdx] = (+note.title[lastIdx] + 1).toString()
-          newNote.title = array.join('')
-        } else {
-          newNote.title = note.title + ' copy-1'
-        }
-      } else {
-        newNote.title =
-          note.title.split('(')[0] +
-          ` (forked from ${OriginalAuthor}/${note.title})`
-      }
+      const oldTitle = (newNote.title = `${req.body.title} (forked from ${
+        note.author.username
+      }/${origTitle ? `${origTitle[0]}`.slice(0, -1) : note.title})`)
 
-      newNote.body = note.body
+      newNote.body = req.body.body
       newNote.author = req.user._id
 
       await newNote.save()
@@ -111,9 +106,12 @@ module.exports = {
       res.redirect(`/notes/${newNote._id}`)
     } catch (error) {
       console.log(error)
+
       req.flash('errors', error.errmsg)
 
-      res.redirect('back')
+      let note = req.body
+
+      res.render('notes/cloneForm', { note })
     }
   },
 

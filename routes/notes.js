@@ -11,7 +11,8 @@ router.get('/new', userController.redirectIfNotAuthenticated, (req, res) => {
 
 router.get('/like/:id', noteController.like)
 
-router.get('/:id/clone', noteController.clone)
+router.get('/:id/cloneForm', noteController.showCloneForm)
+router.put('/:id/clone', noteController.clone)
 
 router.get('/:id', noteController.show)
 
