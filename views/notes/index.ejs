@@ -44,7 +44,7 @@
             <%= note.likes.length %>
           </span>
           <% if (user.id === note.author.id) { %>
-          <form
+          <!--<form
             id="deleteBtn"
             action="/notes/<%= note.id %>?_method=DELETE"
             method="POST"
@@ -52,9 +52,63 @@
             <button type="submit" class="btn">
               <i class="fas fa-trash"></i>
             </button>
+          </form>-->
+          <form
+            id="deleteBtn"
+            action="/notes/<%= note.id %>?_method=DELETE"
+            method="POST"
+          >
+            <div
+              class="modal fade"
+              id="deleteNoteModal"
+              tabindex="-1"
+              role="dialog"
+              aria-labelledby="exampleModalLabel"
+              aria-hidden="true"
+            >
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">
+                      Delete Note Confirmation
+                    </h5>
+                    <button
+                      type="button"
+                      class="close"
+                      data-dismiss="modal"
+                      aria-label="Close"
+                    >
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    Are you sure you want to delete this note?
+                  </div>
+                  <div class="modal-footer">
+                    <button
+                      type="button"
+                      class="btn btn-secondary"
+                      data-dismiss="modal"
+                    >
+                      Close
+                    </button>
+                    <button type="submit" class="btn btn-danger">
+                      Delete Note
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
           </form>
-          <% } else { %> 
-            <% if (user.bookmarks.includes(note._id)) { %>
+          <button
+            type="button"
+            class="btn btn-primary-outline p-0"
+            data-toggle="modal"
+            data-target="#deleteNoteModal"
+          >
+            <i class="fas fa-trash"></i>
+          </button>
+          <% } else { %> <% if (user.bookmarks.includes(note._id)) { %>
           <a href="/users/removeBookmark/<%= note._id %>" class="card-link">
             <i class="fas fa-unlink"></i>
           </a>
@@ -63,8 +117,7 @@
           <a href="/users/bookmark/<%= note._id %>" class="card-link">
             <i class="fas fa-bookmark"></i>
           </a>
-          <% } %> 
-          <% } %>
+          <% } %> <% } %>
         </div>
       </div>
     </div>

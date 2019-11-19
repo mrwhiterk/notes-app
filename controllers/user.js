@@ -50,7 +50,6 @@ module.exports = {
 
         sendWelcomeEmail(email, username)
       } catch (err) {
-        console.log(err)
         if (err.errors.email) {
           req.flash('errors', 'invalid email format')
         } else if (
