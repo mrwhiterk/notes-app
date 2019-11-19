@@ -91,3 +91,8 @@ i#likeComment {
 #members-section a {
   color: black;
 }
+
+#subText {
+  color: grey;
+  font-size: 0.8em;
+}

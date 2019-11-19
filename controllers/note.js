@@ -89,13 +89,17 @@ module.exports = {
         .populate('author')
         .exec()
 
+      const sanitizedTitle = req.body.title.replace(/[^\w\s]/g, '').trim()
+
       const newNote = new Note()
 
-      const origTitle = note.title.match(/[^/]+\)/)
+      const pulledForked = note.title.match(/\([^)]+/)
 
-      const oldTitle = (newNote.title = `${req.body.title} (forked from ${
-        note.author.username
-      }/${origTitle ? `${origTitle[0]}`.slice(0, -1) : note.title})`)
+      if (pulledForked) {
+        newNote.title = `${sanitizedTitle} ${pulledForked[0]})`
+      } else {
+        newNote.title = `${sanitizedTitle} (forked from ${note.author.username}/${note.title})`
+      }
 
       newNote.body = req.body.body
       newNote.author = req.user._id
@@ -107,11 +111,13 @@ module.exports = {
     } catch (error) {
       console.log(error)
 
-      req.flash('errors', error.errmsg)
+      if (error.code === 11000) {
+        req.flash('errors', 'Note title is not available')
+      } else {
+        req.flash('errors', errmsg)
+      }
 
-      let note = req.body
-
-      res.render('notes/cloneForm', { note })
+      res.redirect('back')
     }
   },
 
