@@ -23,7 +23,8 @@ module.exports = {
       const { username, email, password, password2 } = req.body
 
       if (password !== password2) {
-        throw Error('passwords must match')
+        req.flash('errors', 'passwords must match')
+        return res.redirect('/signup')
       }
 
       const user = await User.findOne({ email })
@@ -48,8 +49,22 @@ module.exports = {
         await me.save()
 
         sendWelcomeEmail(email, username)
-      } catch (e) {
-        console.log(e)
+      } catch (err) {
+        console.log(err)
+        if (err.errors.email) {
+          req.flash('errors', 'invalid email format')
+        } else if (
+          err.errors.password.properties.type === 'minlength' &&
+          err.errors.password.properties.path === 'password'
+        ) {
+          req.flash('errors', 'password must be atleast 7 characters long')
+        } else {
+          req.flash('errors', err.message)
+        }
+
+        console.log(err)
+
+        return res.redirect('/signup')
       }
 
       req.login(me, err => {
