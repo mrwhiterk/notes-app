@@ -25,6 +25,15 @@ a {
   font-size: 1.5em;
 }
 
+.fa-unlink {
+  font-size: 1.5em;
+  color: black;
+}
+.fa-bookmark {
+  font-size: 1.5em;
+  color: black;
+}
+
 #note-section .fa-user-edit {
   font-size: 1.5em;
   color: black;

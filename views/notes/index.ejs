@@ -108,7 +108,8 @@
           >
             <i class="fas fa-trash"></i>
           </button>
-          <% } else { %> <% if (user.bookmarks.includes(note._id)) { %>
+          <% } else { %> 
+            <% if (user.bookmarks.includes(note._id)) { %>
           <a href="/users/removeBookmark/<%= note._id %>" class="card-link">
             <i class="fas fa-unlink"></i>
           </a>
